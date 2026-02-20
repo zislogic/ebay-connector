@@ -21,7 +21,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Zislogic\\Ebay\\Connector\\": "src/"
+            "Zislogic\\Ebay\\Connector\\": "src/",
+            "Zislogic\\Ebay\\Connector\\Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {

@@ -76,10 +76,6 @@ final class EbayConnectorServiceProvider extends ServiceProvider
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'ebay-migrations');
 
-        $this->publishes([
-            __DIR__ . '/../database/seeders' => database_path('seeders'),
-        ], 'ebay-seeders');
-
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
