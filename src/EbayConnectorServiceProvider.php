@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Zislogic\Ebay\Connector\Auth\EbayOAuthClient;
 use Zislogic\Ebay\Connector\Commands\RefreshEbayTokensCommand;
 use Zislogic\Ebay\Connector\Http\Controllers\AccountDeletionController;
+use Zislogic\Ebay\Connector\Http\Controllers\EbayCredentialController;
 use Zislogic\Ebay\Connector\Http\Controllers\EbayOAuthController;
 use Zislogic\Ebay\Connector\Services\EbayHttpClient;
 use Zislogic\Ebay\Connector\Services\EbayIdentityService;
@@ -64,6 +65,10 @@ final class EbayConnectorServiceProvider extends ServiceProvider
         $this->app->when(AccountDeletionController::class)
             ->needs('$config')
             ->giveConfig('ebay');
+
+        $this->app->when(EbayCredentialController::class)
+            ->needs('$config')
+            ->giveConfig('ebay');
     }
 
     public function boot(): void
@@ -75,6 +80,10 @@ final class EbayConnectorServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../database/migrations' => database_path('migrations'),
         ], 'ebay-migrations');
+
+        $this->publishes([
+            __DIR__ . '/../resources/js/Pages/Ebay' => resource_path('js/Pages/Ebay'),
+        ], 'ebay-views');
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
 

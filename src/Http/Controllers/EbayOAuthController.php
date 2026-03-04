@@ -22,7 +22,6 @@ final class EbayOAuthController extends Controller
     public function __construct(
         private readonly EbayOAuthClient $oauthClient,
         private readonly EbayTokenManager $tokenManager,
-        private readonly EbayIdentityService $identityService,
         private readonly array $config,
     ) {}
 
@@ -52,9 +51,17 @@ final class EbayOAuthController extends Controller
                 throw EbayAuthException::invalidResponse('Missing authorization code');
             }
 
-            $this->processAuthorizationCode($code);
+            $environment = $request->session()->pull(
+                'ebay_oauth_environment',
+                (string) ($this->config['environment'] ?? 'sandbox'),
+            );
 
-            $successRedirect = (string) ($this->config['routes']['success_redirect'] ?? '/dashboard');
+            $this->processAuthorizationCode($code, (string) $environment);
+
+            $successRedirect = (string) $request->session()->pull(
+                'ebay_oauth_success_redirect',
+                (string) ($this->config['routes']['success_redirect'] ?? '/dashboard'),
+            );
 
             return redirect($successRedirect)
                 ->with('success', 'eBay account connected successfully');
@@ -63,7 +70,10 @@ final class EbayOAuthController extends Controller
                 'error' => $e->getMessage(),
             ]);
 
-            $errorRedirect = (string) ($this->config['routes']['error_redirect'] ?? '/dashboard');
+            $errorRedirect = (string) ($request->session()->pull(
+                'ebay_oauth_error_redirect',
+                (string) ($this->config['routes']['error_redirect'] ?? '/dashboard'),
+            ));
 
             return redirect($errorRedirect)
                 ->with('error', 'Failed to connect eBay account: ' . $e->getMessage());
@@ -74,6 +84,7 @@ final class EbayOAuthController extends Controller
     {
         $request->validate([
             'callback_url' => 'required|url',
+            'environment' => 'sometimes|string|in:sandbox,production',
         ]);
 
         try {
@@ -93,7 +104,9 @@ final class EbayOAuthController extends Controller
                 throw EbayAuthException::invalidResponse('No authorization code found in URL');
             }
 
-            $this->processAuthorizationCode($code);
+            $environment = (string) ($request->input('environment') ?? $this->config['environment'] ?? 'sandbox');
+
+            $this->processAuthorizationCode($code, $environment);
 
             $successRedirect = (string) ($this->config['routes']['success_redirect'] ?? '/dashboard');
 
@@ -111,15 +124,19 @@ final class EbayOAuthController extends Controller
         }
     }
 
-    private function processAuthorizationCode(string $code): EbayCredential
+    private function processAuthorizationCode(string $code, ?string $environment = null): EbayCredential
     {
-        $tokenResponse = $this->oauthClient->exchangeCodeForTokens($code);
+        $environment = $environment ?? (string) ($this->config['environment'] ?? 'sandbox');
 
-        $userData = $this->identityService->getUser($tokenResponse->accessToken);
+        $oauthClient = new EbayOAuthClient($this->config, $environment);
+        $identityService = new EbayIdentityService($this->config, $environment);
+
+        $tokenResponse = $oauthClient->exchangeCodeForTokens($code);
+
+        $userData = $identityService->getUser($tokenResponse->accessToken);
 
         /** @var string $ebayUserId */
         $ebayUserId = $userData['userId'];
-        $environment = (string) ($this->config['environment'] ?? 'sandbox');
 
         /** @var EbayCredential $credential */
         $credential = EbayCredential::query()->firstOrNew([

@@ -5,6 +5,8 @@ declare(strict_types=1);
 return [
     'environment' => env('EBAY_ENVIRONMENT', 'sandbox'),
 
+    'code_exchange_method' => env('EBAY_CODE_EXCHANGE_METHOD', 'manual'),
+
     'credentials' => [
         'sandbox' => [
             'client_id' => env('EBAY_SANDBOX_CLIENT_ID', env('EBAY_CLIENT_ID')),
@@ -21,15 +23,37 @@ return [
     'scopes' => [
         'sandbox' => [
             'https://api.ebay.com/oauth/api_scope',
+            'https://api.ebay.com/oauth/api_scope/sell.marketing.readonly',
+            'https://api.ebay.com/oauth/api_scope/sell.marketing',
+            'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly',
             'https://api.ebay.com/oauth/api_scope/sell.inventory',
-            'https://api.ebay.com/oauth/api_scope/sell.fulfillment',
+            'https://api.ebay.com/oauth/api_scope/sell.account.readonly',
             'https://api.ebay.com/oauth/api_scope/sell.account',
+            'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
+            'https://api.ebay.com/oauth/api_scope/sell.fulfillment',
+            'https://api.ebay.com/oauth/api_scope/sell.analytics.readonly',
+            'https://api.ebay.com/oauth/api_scope/sell.finances',
+            'https://api.ebay.com/oauth/api_scope/sell.payment.dispute',
+            'https://api.ebay.com/oauth/api_scope/commerce.identity.readonly',
+            'https://api.ebay.com/oauth/api_scope/commerce.notification.subscription',
+            'https://api.ebay.com/oauth/api_scope/commerce.notification.subscription.readonly',
         ],
         'production' => [
             'https://api.ebay.com/oauth/api_scope',
+            'https://api.ebay.com/oauth/api_scope/sell.marketing.readonly',
+            'https://api.ebay.com/oauth/api_scope/sell.marketing',
+            'https://api.ebay.com/oauth/api_scope/sell.inventory.readonly',
             'https://api.ebay.com/oauth/api_scope/sell.inventory',
-            'https://api.ebay.com/oauth/api_scope/sell.fulfillment',
+            'https://api.ebay.com/oauth/api_scope/sell.account.readonly',
             'https://api.ebay.com/oauth/api_scope/sell.account',
+            'https://api.ebay.com/oauth/api_scope/sell.fulfillment.readonly',
+            'https://api.ebay.com/oauth/api_scope/sell.fulfillment',
+            'https://api.ebay.com/oauth/api_scope/sell.analytics.readonly',
+            'https://api.ebay.com/oauth/api_scope/sell.finances',
+            'https://api.ebay.com/oauth/api_scope/sell.payment.dispute',
+            'https://api.ebay.com/oauth/api_scope/commerce.identity.readonly',
+            'https://api.ebay.com/oauth/api_scope/commerce.notification.subscription',
+            'https://api.ebay.com/oauth/api_scope/commerce.notification.subscription.readonly',
         ],
     ],
 
