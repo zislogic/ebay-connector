@@ -77,6 +77,8 @@ return [
         'endpoint_url' => env('EBAY_DELETION_ENDPOINT_URL', env('APP_URL', 'http://localhost') . '/ebay/account-deletion'),
     ],
 
+    'verify_ssl' => env('EBAY_VERIFY_SSL', true),
+
     'cache' => [
         'prefix' => 'ebay',
         'ttl_buffer' => 300,

@@ -41,12 +41,28 @@ php artisan db:seed --class="Zislogic\Ebay\Connector\Database\Seeders\EbayMarket
 Add to `.env`:
 
 ```env
+# Active environment: "sandbox" or "production"
 EBAY_ENVIRONMENT=sandbox
-EBAY_CLIENT_ID=your-client-id
-EBAY_CLIENT_SECRET=your-client-secret
-EBAY_REDIRECT_URI=https://yourapp.com/ebay/oauth/callback
+
+# OAuth callback method: "automatic" (eBay redirects to callback route)
+# or "manual" (user pastes the callback URL via POST /ebay/oauth/exchange)
+EBAY_CODE_EXCHANGE_METHOD=manual
+
+# Sandbox credentials (from eBay Developer Program)
+EBAY_SANDBOX_CLIENT_ID=your-sandbox-client-id
+EBAY_SANDBOX_CLIENT_SECRET=your-sandbox-client-secret
+EBAY_SANDBOX_REDIRECT_URI=your-sandbox-RuName
+
+# Production credentials
+EBAY_PRODUCTION_CLIENT_ID=your-production-client-id
+EBAY_PRODUCTION_CLIENT_SECRET=your-production-client-secret
+EBAY_PRODUCTION_REDIRECT_URI=your-production-RuName
+
+# Account deletion compliance (optional)
 EBAY_DELETION_VERIFICATION_TOKEN=your-verification-token
 ```
+
+> **Note:** The config also supports simplified keys (`EBAY_CLIENT_ID`, `EBAY_CLIENT_SECRET`, `EBAY_REDIRECT_URI`) as fallbacks when you only need one environment. Per-environment keys take priority.
 
 ## Usage
 

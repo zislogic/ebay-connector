@@ -84,7 +84,7 @@ final class EbayOAuthClient
             ->asForm()
             ->post($this->getTokenUrl(), [
                 'grant_type' => 'client_credentials',
-                'scope' => implode(' ', $this->getScopes()),
+                'scope' => 'https://api.ebay.com/oauth/api_scope',
             ]);
 
         if ($response->failed()) {
