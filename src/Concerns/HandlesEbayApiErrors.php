@@ -22,7 +22,8 @@ trait HandlesEbayApiErrors
      * Execute an eBay API call with automatic retry for auth and rate limit errors.
      *
      * @template T
-     * @param callable(): T $apiCall
+     *
+     * @param  callable(): T  $apiCall
      * @return T
      */
     protected function callWithRetry(callable $apiCall): mixed
@@ -68,9 +69,6 @@ trait HandlesEbayApiErrors
         }
     }
 
-    /**
-     * @return never
-     */
     private function failWithApiError(\Throwable $e): never
     {
         $this->error("eBay API error [{$e->getCode()}]: {$e->getMessage()}");

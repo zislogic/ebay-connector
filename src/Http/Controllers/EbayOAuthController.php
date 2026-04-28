@@ -17,7 +17,7 @@ use Zislogic\Ebay\Connector\Services\EbayTokenManager;
 final class EbayOAuthController extends Controller
 {
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private readonly EbayOAuthClient $oauthClient,
@@ -76,7 +76,7 @@ final class EbayOAuthController extends Controller
             ));
 
             return redirect($errorRedirect)
-                ->with('error', 'Failed to connect eBay account: ' . $e->getMessage());
+                ->with('error', 'Failed to connect eBay account: '.$e->getMessage());
         }
     }
 
@@ -120,7 +120,7 @@ final class EbayOAuthController extends Controller
             $errorRedirect = (string) ($this->config['routes']['error_redirect'] ?? '/dashboard');
 
             return redirect($errorRedirect)
-                ->with('error', 'Failed to connect eBay account: ' . $e->getMessage());
+                ->with('error', 'Failed to connect eBay account: '.$e->getMessage());
         }
     }
 

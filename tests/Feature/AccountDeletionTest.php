@@ -18,7 +18,7 @@ final class AccountDeletionTest extends TestCase
         $response->assertJsonStructure(['challengeResponse']);
 
         $data = $response->json();
-        $expected = hash('sha256', 'test123' . 'test-token' . 'http://localhost/ebay/account-deletion');
+        $expected = hash('sha256', 'test123'.'test-token'.'http://localhost/ebay/account-deletion');
 
         $this->assertSame($expected, $data['challengeResponse']);
     }

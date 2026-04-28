@@ -18,7 +18,7 @@ final class EbayConnectorServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/ebay.php', 'ebay');
+        $this->mergeConfigFrom(__DIR__.'/../config/ebay.php', 'ebay');
 
         $this->app->singleton(EbayOAuthClient::class, function ($app): EbayOAuthClient {
             /** @var array<string, mixed> $config */
@@ -74,20 +74,20 @@ final class EbayConnectorServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/ebay.php' => config_path('ebay.php'),
+            __DIR__.'/../config/ebay.php' => config_path('ebay.php'),
         ], 'ebay-config');
 
         $this->publishes([
-            __DIR__ . '/../database/migrations' => database_path('migrations'),
+            __DIR__.'/../database/migrations' => database_path('migrations'),
         ], 'ebay-migrations');
 
         $this->publishes([
-            __DIR__ . '/../resources/js/Pages/Ebay' => resource_path('js/Pages/Ebay'),
+            __DIR__.'/../resources/js/Pages/Ebay' => resource_path('js/Pages/Ebay'),
         ], 'ebay-views');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
 
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
 
         if ($this->app->runningInConsole()) {
             $this->commands([

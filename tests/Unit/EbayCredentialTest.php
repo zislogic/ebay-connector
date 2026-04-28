@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Zislogic\Ebay\Connector\Tests\Unit;
 
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Crypt;
 use PHPUnit\Framework\Attributes\Test;
 use Zislogic\Ebay\Connector\Models\EbayCredential;
@@ -99,7 +100,7 @@ final class EbayCredentialTest extends TestCase
             'environment' => 'sandbox',
         ]);
 
-        $this->expectException(\Illuminate\Database\QueryException::class);
+        $this->expectException(QueryException::class);
 
         $this->createCredential([
             'ebay_user_id' => 'user-123',

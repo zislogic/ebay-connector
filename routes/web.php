@@ -8,7 +8,9 @@ use Zislogic\Ebay\Connector\Http\Controllers\EbayCredentialController;
 use Zislogic\Ebay\Connector\Http\Controllers\EbayOAuthController;
 
 Route::prefix('ebay')->name('ebay.')->group(function (): void {
-    Route::middleware(['web', 'auth'])->group(function (): void {
+    /** @var array<int, string> $middleware */
+    $middleware = config('ebay.routes.middleware', ['web', 'auth']);
+    Route::middleware($middleware)->group(function (): void {
         Route::get('oauth/redirect', [EbayOAuthController::class, 'redirect'])
             ->name('oauth.redirect');
         Route::post('oauth/exchange', [EbayOAuthController::class, 'exchange'])

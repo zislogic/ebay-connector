@@ -14,7 +14,7 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 
     /**
@@ -49,15 +49,15 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * @param array<string, mixed> $attributes
+     * @param  array<string, mixed>  $attributes
      */
     protected function createCredential(array $attributes = []): EbayCredential
     {
         return EbayCredential::query()->create(array_merge([
             'name' => 'Test User',
             'environment' => 'sandbox',
-            'ebay_user_id' => 'test-user-' . uniqid(),
-            'refresh_token' => 'test-refresh-token-' . uniqid(),
+            'ebay_user_id' => 'test-user-'.uniqid(),
+            'refresh_token' => 'test-refresh-token-'.uniqid(),
             'refresh_token_expires_at' => now()->addDays(30),
             'is_active' => true,
         ], $attributes));

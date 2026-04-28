@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 final class AccountDeletionController extends Controller
 {
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private readonly array $config,
@@ -38,7 +38,7 @@ final class AccountDeletionController extends Controller
         $verificationToken = (string) ($this->config['deletion_notification']['verification_token'] ?? '');
         $endpointUrl = (string) ($this->config['deletion_notification']['endpoint_url'] ?? '');
 
-        $challengeResponse = hash('sha256', $challengeCode . $verificationToken . $endpointUrl);
+        $challengeResponse = hash('sha256', $challengeCode.$verificationToken.$endpointUrl);
 
         return response()->json([
             'challengeResponse' => $challengeResponse,

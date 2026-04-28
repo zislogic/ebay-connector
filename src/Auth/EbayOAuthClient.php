@@ -7,11 +7,12 @@ namespace Zislogic\Ebay\Connector\Auth;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Zislogic\Ebay\Connector\Exceptions\EbayAuthException;
+use Zislogic\Ebay\Connector\Services\EbayHttpClient;
 
 final class EbayOAuthClient
 {
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private readonly array $config,
@@ -31,7 +32,7 @@ final class EbayOAuthClient
             $params['state'] = $state;
         }
 
-        return $this->getAuthUrl() . '?' . http_build_query($params);
+        return $this->getAuthUrl().'?'.http_build_query($params);
     }
 
     public function exchangeCodeForTokens(string $code): TokenResponse
@@ -102,11 +103,28 @@ final class EbayOAuthClient
 
     private function createTokenRequest(): PendingRequest
     {
-        $credentials = base64_encode($this->getClientId() . ':' . $this->getClientSecret());
+        $credentials = base64_encode($this->getClientId().':'.$this->getClientSecret());
 
-        return Http::withHeaders([
-            'Authorization' => 'Basic ' . $credentials,
+        $request = Http::withHeaders([
+            'Authorization' => 'Basic '.$credentials,
         ]);
+
+        $options = [];
+
+        if (! ($this->config['verify_ssl'] ?? true)) {
+            $options['verify'] = false;
+        }
+
+        $proxy = EbayHttpClient::resolveProxy($this->config);
+        if ($proxy !== null) {
+            $options['proxy'] = $proxy;
+        }
+
+        if ($options !== []) {
+            $request = $request->withOptions($options);
+        }
+
+        return $request;
     }
 
     private function getAuthUrl(): string

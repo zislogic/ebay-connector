@@ -62,22 +62,28 @@ return [
             'auth' => 'https://auth.sandbox.ebay.com/oauth2/authorize',
             'token' => 'https://api.sandbox.ebay.com/identity/v1/oauth2/token',
             'api' => 'https://api.sandbox.ebay.com',
+            'apim' => 'https://apim.sandbox.ebay.com',
             'apiz' => 'https://apiz.sandbox.ebay.com',
         ],
         'production' => [
             'auth' => 'https://auth.ebay.com/oauth2/authorize',
             'token' => 'https://api.ebay.com/identity/v1/oauth2/token',
             'api' => 'https://api.ebay.com',
+            'apim' => 'https://apim.ebay.com',
             'apiz' => 'https://apiz.ebay.com',
         ],
     ],
 
     'deletion_notification' => [
         'verification_token' => env('EBAY_DELETION_VERIFICATION_TOKEN'),
-        'endpoint_url' => env('EBAY_DELETION_ENDPOINT_URL', env('APP_URL', 'http://localhost') . '/ebay/account-deletion'),
+        'endpoint_url' => env('EBAY_DELETION_ENDPOINT_URL', env('APP_URL', 'http://localhost').'/ebay/account-deletion'),
     ],
 
     'verify_ssl' => env('EBAY_VERIFY_SSL', true),
+
+    // HTTP proxy for all eBay API requests (optional).
+    // Example: 'http://127.0.0.1:8080'
+    'proxy' => env('EBAY_PROXY') ?: null,
 
     'cache' => [
         'prefix' => 'ebay',
@@ -87,5 +93,8 @@ return [
     'routes' => [
         'success_redirect' => env('EBAY_SUCCESS_REDIRECT', '/dashboard'),
         'error_redirect' => env('EBAY_ERROR_REDIRECT', '/dashboard'),
+        // Middleware applied to all protected eBay routes (credentials, OAuth initiation).
+        // Override to ['web'] in apps that manage their own access control.
+        'middleware' => array_filter(explode(',', env('EBAY_ROUTE_MIDDLEWARE', 'web,auth'))),
     ],
 ];

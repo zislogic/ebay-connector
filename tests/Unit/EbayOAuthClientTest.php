@@ -146,7 +146,7 @@ final class EbayOAuthClientTest extends TestCase
         $this->client->getApplicationToken();
 
         Http::assertSent(function ($request) {
-            $expectedAuth = 'Basic ' . base64_encode('test-client-id:test-client-secret');
+            $expectedAuth = 'Basic '.base64_encode('test-client-id:test-client-secret');
 
             return $request->hasHeader('Authorization', $expectedAuth);
         });

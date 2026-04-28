@@ -13,7 +13,7 @@ use Zislogic\Ebay\Connector\Models\EbayCredential;
 final class EbayTokenManager
 {
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private readonly EbayOAuthClient $oauthClient,

@@ -10,7 +10,7 @@ use Zislogic\Ebay\Connector\Exceptions\EbayAuthException;
 final class EbayIdentityService
 {
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private readonly array $config,
@@ -23,9 +23,20 @@ final class EbayIdentityService
     public function getUser(string $accessToken): array
     {
         $baseUrl = (string) $this->config['urls'][$this->environment]['apiz'];
-        $url = $baseUrl . '/commerce/identity/v1/user/';
+        $url = $baseUrl.'/commerce/identity/v1/user/';
 
-        $response = Http::withToken($accessToken)->get($url);
+        $options = [];
+
+        if (! ($this->config['verify_ssl'] ?? true)) {
+            $options['verify'] = false;
+        }
+
+        $proxy = EbayHttpClient::resolveProxy($this->config);
+        if ($proxy !== null) {
+            $options['proxy'] = $proxy;
+        }
+
+        $response = Http::withToken($accessToken)->withOptions($options)->get($url);
 
         if ($response->failed()) {
             throw EbayAuthException::httpError(

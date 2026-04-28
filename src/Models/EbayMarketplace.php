@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zislogic\Ebay\Connector\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -15,8 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $currency
  * @property string $locale
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  */
 final class EbayMarketplace extends Model
 {
@@ -42,16 +43,16 @@ final class EbayMarketplace extends Model
 
     public static function findBySiteId(int $siteId): ?self
     {
-        return static::query()->where('site_id', $siteId)->first();
+        return self::query()->where('site_id', $siteId)->first();
     }
 
     public static function findByMarketplaceId(string $marketplaceId): ?self
     {
-        return static::query()->where('marketplace_id', $marketplaceId)->first();
+        return self::query()->where('marketplace_id', $marketplaceId)->first();
     }
 
     public static function findBySiteCode(string $siteCode): ?self
     {
-        return static::query()->where('site_code', $siteCode)->first();
+        return self::query()->where('site_code', $siteCode)->first();
     }
 }

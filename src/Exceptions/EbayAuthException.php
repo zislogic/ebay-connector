@@ -10,12 +10,12 @@ final class EbayAuthException extends Exception
 {
     public static function invalidResponse(string $message = ''): self
     {
-        return new self('Invalid OAuth response from eBay: ' . $message);
+        return new self('Invalid OAuth response from eBay: '.$message);
     }
 
     public static function tokenExchangeFailed(string $message = ''): self
     {
-        return new self('Failed to exchange authorization code for tokens: ' . $message);
+        return new self('Failed to exchange authorization code for tokens: '.$message);
     }
 
     public static function missingConfiguration(string $key): self

@@ -6,6 +6,7 @@ namespace Zislogic\Ebay\Connector\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Crypt;
 
 /**
@@ -14,10 +15,10 @@ use Illuminate\Support\Facades\Crypt;
  * @property string $environment
  * @property string $ebay_user_id
  * @property string|null $refresh_token
- * @property \Illuminate\Support\Carbon|null $refresh_token_expires_at
+ * @property Carbon|null $refresh_token_expires_at
  * @property bool $is_active
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
  *
  * @method static Builder<static> active()
  * @method static Builder<static> environment(string $environment)
@@ -59,7 +60,7 @@ final class EbayCredential extends Model
     }
 
     /**
-     * @param Builder<static> $query
+     * @param  Builder<static>  $query
      * @return Builder<static>
      */
     public function scopeActive(Builder $query): Builder
@@ -68,7 +69,7 @@ final class EbayCredential extends Model
     }
 
     /**
-     * @param Builder<static> $query
+     * @param  Builder<static>  $query
      * @return Builder<static>
      */
     public function scopeEnvironment(Builder $query, string $environment): Builder

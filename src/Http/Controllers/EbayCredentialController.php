@@ -19,7 +19,7 @@ use Zislogic\Ebay\Connector\Services\EbayTokenManager;
 final class EbayCredentialController extends Controller
 {
     /**
-     * @param array<string, mixed> $config
+     * @param  array<string, mixed>  $config
      */
     public function __construct(
         private readonly EbayTokenManager $tokenManager,
@@ -187,7 +187,7 @@ final class EbayCredentialController extends Controller
 
             return redirect()
                 ->route('ebay.credentials.code')
-                ->with('error', 'Failed to connect eBay account: ' . $e->getMessage());
+                ->with('error', 'Failed to connect eBay account: '.$e->getMessage());
         }
     }
 
